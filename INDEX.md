@@ -77,6 +77,9 @@ This creates:
 ### 2. Start Using
 
 ```bash
+# Start end-to-end feature development
+/feature "Implement PIX transfer"
+
 # Multi-level code review
 /review-full src/authentication/
 

@@ -1,6 +1,14 @@
+```
 ---
 name: agent-coordination
-description: Coordination protocol for main Claude Code agent. Explicit user invocation required ("mobilize agents", "coordinate", "check registry"). Provides agent orchestration, registry management, and handoff protocols. Subagents never access this - main agent provides context in task prompts.
+description: |
+  This skill defines the coordination protocol for the Mobile Agent System.
+  Explicit user invocation required ("mobilize agents", "coordinate", "check registry").
+  Provides agent orchestration, registry management, and handoff protocols.
+  Subagents never access this - main agent provides context in task prompts.
+
+  **Location:** `agente-orchestrator/skills/agent-coordination/SKILL.md`
+  **Agents:** Defined in `agente-orchestrator/agents/`
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, TodoWrite
 ---
 

@@ -37,11 +37,13 @@ REGISTRY="$REPORTS_DIR/_registry.md"
 ├── analysis/                      # Old analysis reports
 ├── arch/                          # Old architecture reports
 ├── bugs/                          # Old bug reports
-├── implementation/                # Old implementation reports (mobile)
+├── design/                        # Old design reports
+├── implementation/                # Old implementation reports
+├── exec/                          # Old execution reports
+├── handoff/                       # Old handoff reports
 ├── review/                        # Old review reports
 ├── security/                      # Old security reports
-├── tests/                         # Old test reports
-└── ...
+└── tests/                         # Old test reports
 ```
 
 ## Execution
@@ -50,11 +52,26 @@ Uses the Python archive script bundled with the agent-coordination skill:
 
 ```bash
 # Script location (per Claude Code skill structure)
-python agente-orchestrator/skills/agent-coordination/scripts/archive_reports.py [days]
+python .claude/skills/agent-coordination/scripts/archive_reports.py [days]
+
+# Examples
+python .claude/skills/agent-coordination/scripts/archive_reports.py     # Default: 7 days
+python .claude/skills/agent-coordination/scripts/archive_reports.py 14  # 14 days
+python .claude/skills/agent-coordination/scripts/archive_reports.py 7 --dry-run  # Preview only
 ```
-*(Note: Ensure path to script is correct relative to execution root)*
 
 ## When to Run
 
 - **Weekly:** As part of end-of-week cleanup
 - **On demand:** When registry exceeds ~50 active entries
+- **Before major work:** To ensure clean context
+
+## Notes
+
+- **Dated snapshots:** Each archive run creates a new `_registry-archive-YYYYMMDD.md`
+- **No appending:** Archive registries are never appended to - each is a snapshot in time
+- **Full automation:** Updates both active and archive registries automatically
+- **Archived reports** remain accessible in archive folder by category
+- **Reversible:** Can be reversed by moving entries back
+- **No deletion:** Does NOT delete anything - only moves
+- **Archive history:** Track all past archives via dated registry files

@@ -1,14 +1,6 @@
-```
 ---
 name: agent-coordination
-description: |
-  This skill defines the coordination protocol for the Mobile Agent System.
-  Explicit user invocation required ("mobilize agents", "coordinate", "check registry").
-  Provides agent orchestration, registry management, and handoff protocols.
-  Subagents never access this - main agent provides context in task prompts.
-
-  **Location:** `agente-orchestrator/skills/agent-coordination/SKILL.md`
-  **Agents:** Defined in `agente-orchestrator/agents/`
+description: Coordination protocol for main Claude Code agent. Explicit user invocation required ("mobilize agents", "coordinate", "check registry"). Provides agent orchestration, registry management, and handoff protocols. Subagents never access this - main agent provides context in task prompts.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, TodoWrite
 ---
 
@@ -117,14 +109,14 @@ All reports go to `.claude/reports/[category]/`:
 | arch | `arch/` | Architecture decisions, ADRs, system design | architect, rfc |
 | bugs | `bugs/` | Bug reports, root cause analysis | code-quality (debug) |
 | commits | `commits/` | Commit summaries, changelog entries | devops (git) |
+| design | `design/` | UI/UX reviews, design specs | ux-designer |
 | exec | `exec/` | Execution logs, command outputs | devops |
 | handoff | `handoff/` | Agent coordination, context transfers | (main agent) |
-| implementation | `implementation/` | Implementation plans, code specs | feature-software-engineer, flutter-platform-engineer |
+| implementation | `implementation/` | Implementation plans, code specs | backend, frontend |
 | review | `review/` | Code reviews, PR reviews | code-quality (review) |
 | tests | `tests/` | Test plans, test results, coverage | test-engineer, qa |
 | security | `security/` | Security scans, threat models, compliance | security-engineer |
-| sre | `sre/` | SLOs, postmortems, capacity plans | sre |
-| rfc | `rfc/` | Design proposals, RFCs | rfc |
+| ci | `ci/` | CI pipeline results | (bash/devops) |
 | archive | `archive/` | Old reports (moved, not deleted) | (archive script) |
 
 **Naming convention:** `[category]-[topic]-YYYYMMDD.md`
@@ -135,16 +127,14 @@ All reports go to `.claude/reports/[category]/`:
 
 | Agent | Modes | Primary Output Category |
 |-------|-------|------------------------|
-| agent-orchestrator | orchestrate | handoff/ |
 | code-quality | review, debug, qa-strategy | review/, bugs/, tests/ |
 | test-engineer | - | tests/ |
-| architect | system | arch/ |
-| feature-software-engineer | design, implement, verify | implementation/ |
-| security-mobile | scan, harden, audit | security/ |
-| flutter-platform-engineer | core, design-system | implementation/ |
-| analytics-specialist | plan, audit, implement | analysis/ |
-| docs | general, mobile | (documentation files) |
-| investments-specialist | rules, validation | implementation/ |
+| architect | system, pipeline | arch/ |
+| security-engineer | scan, threat-model, compliance | security/ |
+| backend | - | implementation/ |
+| software-engineer |  analyze, implement, test | analysis/, implementation/ |
+| docs | general | (documentation files) |
+| rfc | author, review, decision | rfc/ |
 
 ---
 
@@ -175,10 +165,8 @@ Tech debt entries are created when:
 | Command | Purpose |
 |---------|---------|
 | /review-full | Multi-level review (L1: peer → L2: arch → L3: security → L4: reliability) |
-| /ci | Local CI pipeline (lint → build → test → security) |
 | /security | Security vulnerability scan |
 | /rfc | Create/review design documents |
-| /slo | Define service level objectives |
 | /postmortem | Incident analysis and learning |
 | /debt | View and manage tech debt |
 | /archive | Move old registry entries to archive |
@@ -197,6 +185,4 @@ skills/agent-coordination/
     └── archive_reports.py # Registry archiving (dated snapshots)
 ```
 
----
 
-**Version:** 5.1.0

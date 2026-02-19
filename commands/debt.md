@@ -2,7 +2,7 @@
 description: View and manage tech debt registry
 ---
 
-# Tech Debt Command (Mobile)
+# Tech Debt Command
 
 Manage technical debt tracking.
 
@@ -21,7 +21,26 @@ Manage technical debt tracking.
 /debt
 ```
 
-Read `.claude/reports/_tech-debt.md` and display summary by priority.
+Read `.claude/reports/_tech-debt.md` and display:
+
+```markdown
+# Tech Debt Summary
+
+## By Priority
+| Priority | Count | Oldest |
+|----------|-------|--------|
+| Critical | [n] | [date] |
+| High | [n] | [date] |
+| Medium | [n] | [date] |
+| Low | [n] | [date] |
+
+## Critical Items (Immediate Attention)
+[List critical items]
+
+## Recommendations
+- [If critical > 0]: Address critical debt before new features
+- [If oldest > 90 days]: Review and reprioritize stale items
+```
 
 ## Add Debt
 
@@ -29,8 +48,8 @@ Read `.claude/reports/_tech-debt.md` and display summary by priority.
 /debt add "Description" --priority [critical|high|medium|low]
 ```
 
-1. Get next TD number
-2. Add to `_tech-debt.md`
+1. Get next TD number: `grep -oE 'TD-[0-9]+' .claude/reports/_tech-debt.md | sort -t- -k2 -n | tail -1`
+2. Add to appropriate section
 3. Report confirmation
 
 ## Resolve Debt
@@ -42,6 +61,8 @@ Read `.claude/reports/_tech-debt.md` and display summary by priority.
 1. Find item in registry
 2. Mark as `[x]`
 3. Move to Resolved section
+4. Add resolution date
+5. Update metrics
 
 ## Full Review
 
@@ -68,13 +89,21 @@ Output recommendations for registry cleanup.
 ")
 ```
 
-## Debt Types (Mobile)
+## Integration
+
+Tech debt is created from:
+- `/postmortem` action items
+- `/review-full` findings marked "won't fix now"
+- `/rfc` deferred requirements
+- Sprint retrospectives
+
+## Debt Types
 
 | Type | Example | Typical Priority |
 |------|---------|-----------------|
-| Code | Massive Build methods, Logic in UI | Medium |
-| Test | Golden file missing, Low coverage | High |
-| Dependency | Outdated packages, Deprecated APIs | High |
-| Architecture | Circular dependencies, Tight coupling | Critical |
-| UI/UX | Jank, Non-standard components | Low |
-| Security | Cleartext traffic, Insecure storage | Critical |
+| Code | Duplicated logic, missing abstractions | Medium |
+| Test | Low coverage, flaky tests | High |
+| Dependency | Outdated packages, deprecated APIs | High |
+| Architecture | Scaling limits, tight coupling | Critical |
+| Documentation | Missing docs, stale docs | Low |
+| Infrastructure | Manual processes, missing automation | Medium |
